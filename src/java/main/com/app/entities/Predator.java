@@ -7,9 +7,10 @@ import java.util.List;
 public class Predator extends Creature {
     private int attackPower;
 
-    public Predator(Point point) {
-        super(point);
+    public Predator(Point point, Class typeOfPrey) {
+        super(point, typeOfPrey);
     }
+
 
     @Override
     public Class<? extends Entity> getTypeOfPrey() {

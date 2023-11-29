@@ -6,9 +6,11 @@ import java.util.List;
 public abstract class Creature<T extends Entity> extends Entity {
     protected int speed;
     protected int healthPoint;
+    protected Class<T> typeOfPrey;
 
-    Creature(Point point) {
+    Creature(Point point, Class<T> typeOfPrey) {
         super(point);
+        this.typeOfPrey = typeOfPrey;
     }
 
     public void makeMove(WorldMap worldMap) {
@@ -16,7 +18,7 @@ public abstract class Creature<T extends Entity> extends Entity {
         Class<? extends Entity> preyType = getTypeOfPrey();
         Point preyPosition = findNearestPrey(worldMap, this.point, preyType);
         if (preyPosition != null) {
-            List<Point> path = pathfinder.findPath(this.point, new Point(preyPosition.getX(), preyPosition.getY()));
+            List<Point> path = pathfinder.findPath(this.point, new Point(preyPosition.getX(), preyPosition.getY()), typeOfPrey);
 
             // Якщо знайдено шлях, пересувати хижака
             if (path != null && !path.isEmpty()) {

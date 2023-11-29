@@ -13,7 +13,7 @@ public class AStarPathfinder {
         this.worldMap = worldMap;
     }
 
-    public List<Point> findPath(Point start, Point goal) {
+    public <T extends Entity> List<Point> findPath(Point start, Point goal, Class<T> targetType) {
         Set<Point> openSet = new HashSet<>();
         Set<Point> closedSet = new HashSet<>();
         Map<Point, Point> cameFrom = new HashMap<>();
@@ -33,7 +33,7 @@ public class AStarPathfinder {
             openSet.remove(current);
             closedSet.add(current);
 
-            for (Point neighbor : getNeighbors(current)) {
+            for (Point neighbor : getNeighbors(current, targetType)) {
                 if (closedSet.contains(neighbor)) {
                     continue;
                 }
@@ -64,7 +64,6 @@ public class AStarPathfinder {
         return Collections.emptyList();
     }
 
-
     private Point getLowestFScore(Set<Point> openSet, Map<Point, Integer> fScore) {
         return openSet.stream().min(Comparator.comparingInt(fScore::get)).orElse(null);
     }
@@ -89,7 +88,7 @@ public class AStarPathfinder {
         return Math.abs(b.getX() - a.getX()) + Math.abs(b.getY() - a.getY());
     }
 
-    private List<Point> getNeighbors(Point point) {
+    private <T extends Entity> List<Point> getNeighbors(Point point, Class<T> targetType) {
         List<Point> neighbors = new ArrayList<>();
 
         // Check all possible neighbors (up, down, left, right)
@@ -105,8 +104,8 @@ public class AStarPathfinder {
 
                 Point neighbor = new Point(newX, newY);
 
-                // Check if the neighbor is valid based on the WorldMap
-                if (isValidNeighbor(neighbor)) {
+                // Check if the neighbor is valid based on the WorldMap and the target type
+                if (isValidNeighbor(neighbor, targetType)) {
                     neighbors.add(neighbor);
                 }
             }
@@ -115,15 +114,15 @@ public class AStarPathfinder {
         return neighbors;
     }
 
-    private boolean isValidNeighbor(Point neighbor) {
+    private <T extends Entity> boolean isValidNeighbor(Point neighbor, Class<T> targetType) {
         // Check if the point is within the bounds of the map
         int mapSize = worldMap.getMapSize();
         if (neighbor.getX() < 0 || neighbor.getX() >= mapSize || neighbor.getY() < 0 || neighbor.getY() >= mapSize) {
             return false;
         }
 
-        // Check if the point is not blocked (e.g., by grass or another object), excluding the predator
+        // Check if the point is not blocked by another object
         Entity entity = worldMap.getEntityByPoint(neighbor);
-        return entity == null || entity.toString().equals("🐇");
+        return entity == null || targetType.isAssignableFrom(entity.getClass());
     }
 }
