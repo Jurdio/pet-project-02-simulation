@@ -21,6 +21,9 @@ public class Actions {
         SpawnEntity.spawnRock(simulationWorldMap);
         SpawnEntity.spawnRock(simulationWorldMap);
         SpawnEntity.spawnRock(simulationWorldMap);
+        SpawnEntity.spawnGrass(simulationWorldMap);
+        SpawnEntity.spawnGrass(simulationWorldMap);
+        SpawnEntity.spawnGrass(simulationWorldMap);
 
 
     }
@@ -40,6 +43,9 @@ public class Actions {
         }
         static void spawnRock(WorldMap map){
             map.addEntityToMap(new Rock(map.getRandomPoint()));
+        }
+        static void spawnGrass(WorldMap map){
+            map.addEntityToMap(new Grass(map.getRandomPoint()));
         }
 
     }

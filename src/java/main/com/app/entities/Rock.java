@@ -6,6 +6,6 @@ public class Rock extends Entity{
     }
     @Override
     public String toString(){
-        return "\uD83C\uDFD4️"; //🏔️
+        return "\uD83D\uDDFB️"; //🗻
     }
 }
