@@ -6,10 +6,10 @@ public abstract class Entity {
     protected Point point;
     protected boolean isEaten;
     public Point getPoint() {
-        return point;
+        return new Point(point.getX(),point.getY());
     }
-    Entity(){
-        point = new Point();
+    Entity(Point point){
+        this.point = point;
     }
     public void setPoint(Point point) {
         this.point = point;

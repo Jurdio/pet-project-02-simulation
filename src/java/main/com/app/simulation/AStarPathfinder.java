@@ -54,9 +54,16 @@ public class AStarPathfinder {
 
         // No path found
         System.out.println("No path found");
+        System.out.println("Start: " + start + ", Goal: " + goal);
+        System.out.println("Open Set: " + openSet);
+        System.out.println("Closed Set: " + closedSet);
+        System.out.println("Came From: " + cameFrom);
+        System.out.println("G Score: " + gScore);
+        System.out.println("F Score: " + fScore);
         System.out.println("Path: null");
-        return null;
+        return Collections.emptyList();
     }
+
 
     private Point getLowestFScore(Set<Point> openSet, Map<Point, Integer> fScore) {
         return openSet.stream().min(Comparator.comparingInt(fScore::get)).orElse(null);
@@ -115,8 +122,8 @@ public class AStarPathfinder {
             return false;
         }
 
-        // Check if the point is not blocked (e.g., by grass or another object)
+        // Check if the point is not blocked (e.g., by grass or another object), excluding the predator
         Entity entity = worldMap.getEntityByPoint(neighbor);
-        return entity == null;
+        return entity == null || entity.toString().equals("🐇");
     }
 }

@@ -6,8 +6,9 @@ import java.util.List;
 
 public class Predator extends Creature {
     private int attackPower;
-    public Predator() {
-        super();
+
+    public Predator(Point point) {
+        super(point);
     }
 
     @Override
@@ -29,22 +30,29 @@ public class Predator extends Creature {
     public void makeMove(WorldMap worldMap) {
         AStarPathfinder pathfinder = new AStarPathfinder(worldMap);
         Point preyPosition = worldMap.findNearestPrey(this.point);
+        if (preyPosition != null) {
+            List<Point> path = pathfinder.findPath(this.point, new Point(preyPosition.getX(), preyPosition.getY()));
 
+            // Якщо знайдено шлях, пересувати хижака
+            if (path != null && !path.isEmpty()) {
+                Point nextMove = path.get(1); // Вибрати наступну точку шляху (перша точка - поточна позиція)
 
-        List<Point> path = pathfinder.findPath(this.point, new Point(1,2));//preyPosition);
+                // Перевірити, чи точка є позицією травоїдного
+                Entity prey = worldMap.getEntityByPoint(nextMove);
+                if (prey instanceof Herbivore) {
+                    // Хижак з'їдає травоїдного
+                    worldMap.removeEntityByPoint(nextMove);
+                    System.out.println("Predator ate Herbivore!");
+                }
 
+                // Перемістити хижака до обраної точки
+                worldMap.updateEntityPosition(this.point, nextMove);
 
-        // Якщо знайдено шлях, пересувати хижака
-        if (path != null && !path.isEmpty()) {
-            Point nextMove = path.get(1); // Вибрати наступну точку шляху (перша точка - поточна позиція)
-
-            // Перемістити хижака до обраної точки
-            worldMap.updateEntityPosition(this.point, nextMove);
-
-            // Оновити внутрішню позицію хижака
-            this.point.setX(nextMove.getX());
-            this.point.setY(nextMove.getY());
-            System.out.println("End");
+                // Оновити внутрішню позицію хижака
+                this.point.setX(nextMove.getX());
+                this.point.setY(nextMove.getY());
+                System.out.println("End");
+            }
         }
     }
 

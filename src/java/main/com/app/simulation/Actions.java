@@ -10,6 +10,17 @@ public class Actions {
     public void initActions(WorldMap simulationWorldMap) {
         SpawnEntity.spawnHerbivore(simulationWorldMap);
         SpawnEntity.spawnPredator(simulationWorldMap);
+        SpawnEntity.spawnHerbivore(simulationWorldMap);
+        SpawnEntity.spawnPredator(simulationWorldMap);
+        SpawnEntity.spawnHerbivore(simulationWorldMap);
+        SpawnEntity.spawnRock(simulationWorldMap);
+        SpawnEntity.spawnRock(simulationWorldMap);
+        SpawnEntity.spawnRock(simulationWorldMap);
+        SpawnEntity.spawnRock(simulationWorldMap);
+        SpawnEntity.spawnRock(simulationWorldMap);
+        SpawnEntity.spawnRock(simulationWorldMap);
+        SpawnEntity.spawnRock(simulationWorldMap);
+        SpawnEntity.spawnRock(simulationWorldMap);
 
 
     }
@@ -22,11 +33,14 @@ public class Actions {
     }
     static class SpawnEntity {
         static void spawnPredator(WorldMap map) {
-            map.addEntityToMap(new Predator(), map.getRandomPoint());
+            map.addEntityToMap(new Predator(map.getRandomPoint()));
         }
         static void spawnHerbivore(WorldMap map) {
-            map.addEntityToMap(new Herbivore(), map.getRandomPoint());
+            map.addEntityToMap(new Herbivore(map.getRandomPoint()));
         }
-        static void spawnHerbivoreWithPoint(WorldMap map) { map.addEntityToMap(new Herbivore(new Point(1,1)), new Point(1,1));}
+        static void spawnRock(WorldMap map){
+            map.addEntityToMap(new Rock(map.getRandomPoint()));
+        }
+
     }
 }

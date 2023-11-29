@@ -35,10 +35,9 @@ public class WorldMap {
     public HashMap<Point, Entity> getMap() {
         return map;
     }
-    public void addEntityToMap(Entity entity, Point point) {
-        entity.setPoint(point);
-        map.put(point, entity);
-        generatedPoints.add(point);
+    public void addEntityToMap(Entity entity) {
+        map.put(entity.getPoint(), entity);
+        generatedPoints.add(entity.getPoint());
 
         if (entity instanceof Predator) {
             predators.add((Predator) entity); // Додавання хижака до списку хижаків
@@ -65,6 +64,19 @@ public class WorldMap {
             }
         }
         return nearestPrey;
+    }
+    public void removeEntityByPoint(Point point) {
+        Entity removedEntity = map.remove(point);
+        if (removedEntity != null) {
+            generatedPoints.remove(point);
+
+            if (removedEntity instanceof Predator) {
+                predators.remove(removedEntity); // Видалення хижака зі списку хижаків
+            }
+            if (removedEntity instanceof Herbivore) {
+                herbivore.remove(removedEntity);
+            }
+        }
     }
     private double calculateDistance(Point p1, Point p2) {
         // Реалізуйте обчислення відстані між двома точками (наприклад, відстань Евкліда)
