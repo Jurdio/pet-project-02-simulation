@@ -5,9 +5,9 @@ import main.com.app.entities.*;
 import java.util.Iterator;
 
 public class Actions {
+    private int counter = 0;
     public void initActions(WorldMap simulationWorldMap) {
         SpawnEntity.spawnHerbivore(simulationWorldMap);
-        SpawnEntity.spawnPredator(simulationWorldMap);
         SpawnEntity.spawnHerbivore(simulationWorldMap);
         SpawnEntity.spawnPredator(simulationWorldMap);
         SpawnEntity.spawnHerbivore(simulationWorldMap);
@@ -26,6 +26,7 @@ public class Actions {
 
     }
     public void turnActions(WorldMap simulationWorldMap) {
+        System.out.println("Хід : " + ++counter);
         // Виконати хід для хижаків
         for (Predator predator : simulationWorldMap.getPredators()) {
             predator.makeMove(simulationWorldMap);

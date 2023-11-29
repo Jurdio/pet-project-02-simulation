@@ -21,17 +21,18 @@ public class Simulation {
         renderer.renderWorldMap(map);
         actions.turnActions(map);
         turnCount++;
+
+        // Додайте затримку часу
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void startSimulation() {
         while (true) {
             nextTurn();
-            // Додайте, можливо, затримку часу між ходами, щоб ви бачили результати.
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 

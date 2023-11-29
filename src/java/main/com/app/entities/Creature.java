@@ -37,7 +37,6 @@ public abstract class Creature<T extends Entity> extends Entity {
                 // Оновити внутрішню позицію хижака
                 this.point.setX(nextMove.getX());
                 this.point.setY(nextMove.getY());
-                System.out.println("End");
             }
         }
     }
