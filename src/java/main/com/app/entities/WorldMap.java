@@ -1,16 +1,12 @@
 package main.com.app.entities;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class WorldMap {
     private HashMap<Point, Entity> map;
     private Set<Point> generatedPoints;
     private List<Predator> predators; // Додано список хижаків
+    private List<Herbivore> herbivore;
     private Random random;
     private final int DEFAULT_SIZE = 10;
     private final int SIZE;
@@ -21,6 +17,7 @@ public class WorldMap {
         random = new Random();
         generatedPoints = new HashSet<>();
         predators = new ArrayList<>(); // Ініціалізація списку хижаків
+        herbivore = new ArrayList<>();
     }
     public Point getRandomPoint() {
         Point randomPoint;
@@ -35,21 +32,21 @@ public class WorldMap {
         Entity entity = map.remove(oldPosition);
         map.put(newPosition, entity);
     }
-
+    public HashMap<Point, Entity> getMap() {
+        return map;
+    }
     public void addEntityToMap(Entity entity, Point point) {
-        map.put(point, entity);
         entity.setPoint(point);
+        map.put(point, entity);
         generatedPoints.add(point);
 
         if (entity instanceof Predator) {
             predators.add((Predator) entity); // Додавання хижака до списку хижаків
         }
+        if (entity instanceof Herbivore){
+            herbivore.add((Herbivore) entity);
+        }
     }
-
-    public HashMap<Point, Entity> getMap() {
-        return map;
-    }
-
     public int getMapSize() {
         return SIZE;
     }
@@ -59,22 +56,16 @@ public class WorldMap {
     public Point findNearestPrey(Point predatorPosition) {
         Point nearestPrey = null;
         double nearestDistance = Double.MAX_VALUE;
-
-        for (Entity entity : map.values()) {
-            if (entity instanceof Herbivore) { // Припустимо, що Herbivore - це клас травоїдного
-                Point preyPosition = entity.getPoint();
-                double distance = calculateDistance(predatorPosition, preyPosition);
-
-                if (distance < nearestDistance) {
-                    nearestDistance = distance;
-                    nearestPrey = preyPosition;
-                }
+        for (Entity entity : getHerbivore()){
+            Point preyPosition = entity.getPoint();
+            double distance = calculateDistance(predatorPosition, preyPosition);
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestPrey = preyPosition;
             }
         }
-
         return nearestPrey;
     }
-
     private double calculateDistance(Point p1, Point p2) {
         // Реалізуйте обчислення відстані між двома точками (наприклад, відстань Евкліда)
         return Math.sqrt(Math.pow(p2.getX() - p1.getX(), 2) + Math.pow(p2.getY() - p1.getY(), 2));
@@ -82,5 +73,15 @@ public class WorldMap {
     public List<Predator> getPredators() {
         // Повертаємо невибіркову копію списку хижаків
         return new ArrayList<>(predators);
+    }
+    public List<Herbivore> getHerbivore() {
+        ArrayList<Herbivore> herbivoreArrayList = new ArrayList<>();
+        for (Map.Entry<Point, Entity> entry : map.entrySet()) {
+            Entity entity = entry.getValue();
+            if (entity instanceof Herbivore){
+                herbivoreArrayList.add((Herbivore) entity);
+            }
+        }
+        return herbivoreArrayList;
     }
 }

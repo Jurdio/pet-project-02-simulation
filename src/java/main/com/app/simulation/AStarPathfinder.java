@@ -4,9 +4,7 @@ import main.com.app.entities.Entity;
 import main.com.app.entities.Point;
 import main.com.app.entities.WorldMap;
 
-
 import java.util.*;
-import java.util.List;
 
 public class AStarPathfinder {
     private WorldMap worldMap;
@@ -55,6 +53,8 @@ public class AStarPathfinder {
         }
 
         // No path found
+        System.out.println("No path found");
+        System.out.println("Path: null");
         return null;
     }
 
@@ -85,10 +85,10 @@ public class AStarPathfinder {
     private List<Point> getNeighbors(Point point) {
         List<Point> neighbors = new ArrayList<>();
 
-        // Перевірка всіх можливих сусідів (верх, низ, ліво, право)
+        // Check all possible neighbors (up, down, left, right)
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
-                // Пропустити точку саму на себе
+                // Skip the point itself
                 if (dx == 0 && dy == 0) {
                     continue;
                 }
@@ -98,7 +98,7 @@ public class AStarPathfinder {
 
                 Point neighbor = new Point(newX, newY);
 
-                // Перевірка, чи сусід знаходиться всередині меж карты та чи він не є блокованим
+                // Check if the neighbor is valid based on the WorldMap
                 if (isValidNeighbor(neighbor)) {
                     neighbors.add(neighbor);
                 }
@@ -109,15 +109,14 @@ public class AStarPathfinder {
     }
 
     private boolean isValidNeighbor(Point neighbor) {
-        // Перевірка, чи точка знаходиться всередині меж карты
+        // Check if the point is within the bounds of the map
         int mapSize = worldMap.getMapSize();
         if (neighbor.getX() < 0 || neighbor.getX() >= mapSize || neighbor.getY() < 0 || neighbor.getY() >= mapSize) {
             return false;
         }
 
-        // Перевірка, чи точка не є блокованою (наприклад, трава або інший об'єкт)
+        // Check if the point is not blocked (e.g., by grass or another object)
         Entity entity = worldMap.getEntityByPoint(neighbor);
         return entity == null;
     }
-
 }

@@ -7,8 +7,17 @@ public class Herbivore extends Creature{
         return "\uD83D\uDC07"; //🐇
     }
 
+
     @Override
     public void makeMove(WorldMap simulationWorldMap) {
 
+    }
+
+    public Herbivore() {
+        super();
+    }
+
+    public Herbivore(Point point){
+        setPoint(point);
     }
 }

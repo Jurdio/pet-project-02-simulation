@@ -3,7 +3,8 @@ package main.com.app.entities;
 public class Point {
     private int x;
     private int y;
-    Point(){
+
+    public Point(){
 
     }
 
