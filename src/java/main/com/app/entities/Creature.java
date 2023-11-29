@@ -1,6 +1,9 @@
 package main.com.app.entities;
 
-public abstract class Creature extends Entity{
+import main.com.app.simulation.AStarPathfinder;
+import java.util.List;
+
+public abstract class Creature<T extends Entity> extends Entity {
     protected int speed;
     protected int healthPoint;
 
@@ -8,25 +11,49 @@ public abstract class Creature extends Entity{
         super(point);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+    public void makeMove(WorldMap worldMap) {
+        AStarPathfinder pathfinder = new AStarPathfinder(worldMap);
+        Class<? extends Entity> preyType = getTypeOfPrey();
+        Point preyPosition = findNearestPrey(worldMap, this.point, preyType);
+        if (preyPosition != null) {
+            List<Point> path = pathfinder.findPath(this.point, new Point(preyPosition.getX(), preyPosition.getY()));
 
-        Creature creature = (Creature) o;
+            // Якщо знайдено шлях, пересувати хижака
+            if (path != null && !path.isEmpty()) {
+                Point nextMove = path.get(1);
 
-        if (speed != creature.speed) return false;
-        return healthPoint == creature.healthPoint;
+                // Перевірити, чи точка є позицією здобичі
+                Entity prey = worldMap.getEntityByPoint(nextMove);
+                if (prey != null && preyType.isAssignableFrom(prey.getClass())) {
+                    worldMap.removeEntityByPoint(nextMove);
+                    System.out.println("Predator ate Prey!");
+                }
+
+                // Перемістити хижака до обраної точки
+                worldMap.updateEntityPosition(this.point, nextMove);
+
+                // Оновити внутрішню позицію хижака
+                this.point.setX(nextMove.getX());
+                this.point.setY(nextMove.getY());
+                System.out.println("End");
+            }
+        }
     }
 
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + speed;
-        result = 31 * result + healthPoint;
-        return result;
-    }
+    public abstract Class<? extends Entity> getTypeOfPrey();
 
-    public abstract void makeMove(WorldMap worldMap);
+    public Point findNearestPrey(WorldMap worldMap, Point currentPointPositionOfCreature, Class<? extends Entity> preyType) {
+        Point nearestPrey = null;
+        double nearestDistance = Double.MAX_VALUE;
+        List<? extends Entity> entities = worldMap.getListOfEntities(preyType);
+        for (Entity entity : entities) {
+            Point preyPosition = entity.getPoint();
+            double distance = worldMap.calculateDistance(currentPointPositionOfCreature, preyPosition);
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestPrey = preyPosition;
+            }
+        }
+        return nearestPrey;
+    }
 }

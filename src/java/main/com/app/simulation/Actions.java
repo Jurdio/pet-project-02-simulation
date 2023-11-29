@@ -3,8 +3,6 @@ package main.com.app.simulation;
 import main.com.app.entities.*;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class Actions {
     public void initActions(WorldMap simulationWorldMap) {

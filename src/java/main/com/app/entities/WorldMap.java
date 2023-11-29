@@ -52,19 +52,6 @@ public class WorldMap {
     public Entity getEntityByPoint(Point point) {
         return map.get(point);
     }
-    public Point findNearestPrey(Point predatorPosition) {
-        Point nearestPrey = null;
-        double nearestDistance = Double.MAX_VALUE;
-        for (Entity entity : getHerbivore()){
-            Point preyPosition = entity.getPoint();
-            double distance = calculateDistance(predatorPosition, preyPosition);
-            if (distance < nearestDistance) {
-                nearestDistance = distance;
-                nearestPrey = preyPosition;
-            }
-        }
-        return nearestPrey;
-    }
     public void removeEntityByPoint(Point point) {
         Entity removedEntity = map.remove(point);
         if (removedEntity != null) {
@@ -78,7 +65,16 @@ public class WorldMap {
             }
         }
     }
-    private double calculateDistance(Point p1, Point p2) {
+    public List<? extends Entity> getListOfEntities(Class<? extends Entity> entityType) {
+        ArrayList<Entity> entityList = new ArrayList<>();
+        for (Map.Entry<Point, Entity> entry : map.entrySet()) {
+            if (entityType.isInstance(entry.getValue())) {
+                entityList.add(entry.getValue());
+            }
+        }
+        return entityList;
+    }
+    public double calculateDistance(Point p1, Point p2) {
         // Реалізуйте обчислення відстані між двома точками (наприклад, відстань Евкліда)
         return Math.sqrt(Math.pow(p2.getX() - p1.getX(), 2) + Math.pow(p2.getY() - p1.getY(), 2));
     }
