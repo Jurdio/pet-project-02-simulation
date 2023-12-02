@@ -31,6 +31,7 @@ public class WorldMap {
     public void updateEntityPosition(Point oldPosition, Point newPosition) {
         Entity entity = map.remove(oldPosition);
         map.put(newPosition, entity);
+        entity.setPoint(newPosition);
     }
     public HashMap<Point, Entity> getMap() {
         return map;
