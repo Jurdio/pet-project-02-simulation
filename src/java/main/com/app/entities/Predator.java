@@ -1,27 +1,11 @@
 package main.com.app.entities;
 
-import java.util.List;
-
 public class Predator extends Creature {
     private final int attackPower;
-
     public Predator(Point point, Class typeOfPrey) {
         super(point, typeOfPrey);
         attackPower = 1;
     }
-
-    @Override
-    public void makeMove(WorldMap worldMap) {
-        List<Point> path = pathToNearestPrey(worldMap);
-
-        if (isValidPath(path)) {
-            Point nextPoint = path.get(1);
-            Entity prey = worldMap.getEntityByPoint(nextPoint);
-
-            makeAction(worldMap,prey,nextPoint);
-        }
-    }
-
     @Override
     public Class<? extends Entity> getTypeOfPrey() {
         return Herbivore.class;
@@ -43,7 +27,6 @@ public class Predator extends Creature {
             worldMap.updateEntityPosition(this.point, nextPoint);
         }
     }
-
     @Override
     public String toString() {
         return "\uD83D\uDC3A"; // 🐺

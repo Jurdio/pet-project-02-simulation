@@ -13,7 +13,16 @@ public abstract class Creature<T extends Entity> extends Entity {
         super(point);
         this.typeOfPrey = typeOfPrey;
     }
-    public abstract void makeMove(WorldMap worldMap);
+    public void makeMove(WorldMap worldMap) {
+        List<Point> path = pathToNearestPrey(worldMap);
+
+        if (isValidPath(path)) {
+            Point nextPoint = path.get(1);
+            Entity prey = worldMap.getEntityByPoint(nextPoint);
+
+            makeAction(worldMap,prey,nextPoint);
+        }
+    }
     public void setHealthPoint(int healthPoint){
         this.healthPoint = healthPoint;
     }
