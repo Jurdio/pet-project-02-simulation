@@ -11,7 +11,9 @@ public class Predator extends Creature {
         return Herbivore.class;
     }
     private void attackPrey(Entity prey){
-        ((Creature) prey).setHealthPoint(((Creature) prey).getHealthPoint() - attackPower);
+        if (prey instanceof Creature) {
+            ((Creature) prey).setHealthPoint(((Creature) prey).getHealthPoint() - attackPower);
+        }
     }
     @Override
     public void makeAction(WorldMap worldMap, Entity prey, Point nextPoint) {
@@ -21,7 +23,6 @@ public class Predator extends Creature {
             if (((Creature) prey).getHealthPoint() <= 0){
                 worldMap.removeEntityByPoint(nextPoint);
                 worldMap.updateEntityPosition(this.point, nextPoint);
-                System.out.println("Вбито травоїдного!");
             }
         } else {
             worldMap.updateEntityPosition(this.point, nextPoint);

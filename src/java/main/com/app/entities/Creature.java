@@ -29,7 +29,6 @@ public abstract class Creature<T extends Entity> extends Entity {
     public int getHealthPoint(){
         return healthPoint;
     }
-
     public abstract Class<? extends Entity> getTypeOfPrey();
     public abstract void makeAction(WorldMap map, Entity prey, Point nextPoint);
     boolean isValidPath(List<Point> path){

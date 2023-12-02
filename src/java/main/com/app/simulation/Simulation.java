@@ -8,7 +8,7 @@ public class Simulation {
     private Actions actions;
     private Renderer renderer;
     private int turnCount;
-    private boolean isGamePaused;
+    private static boolean isGamePaused;
 
     public Simulation() {
         map = new WorldMap();
@@ -24,7 +24,7 @@ public class Simulation {
         renderer.renderWorldMap(map);
         actions.turnActions(map);
         turnCount++;
-        System.out.println("Move in the game number :" + turnCount);
+        System.out.println("Step in the game number :" + turnCount);
 
         try {
             Thread.sleep(1000);
@@ -39,10 +39,10 @@ public class Simulation {
         }
     }
 
-    public void pauseSimulation() {
+    public static void pauseSimulation() {
         isGamePaused = true;
     }
-    public void resumeSimulation() {
+    public static void resumeSimulation() {
         isGamePaused = true;
     }
 

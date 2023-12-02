@@ -4,12 +4,11 @@ import java.util.Objects;
 
 public abstract class Entity {
     protected Point point;
-    protected boolean isEaten;
     Entity(Point point){
         this.point = point;
     }
     public Point getPoint() {
-        return new Point(point.getX(),point.getY());
+        return point;
     }
     public void setPoint(Point point) {
         this.point = point;

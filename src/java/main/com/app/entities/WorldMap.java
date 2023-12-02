@@ -5,19 +5,14 @@ import java.util.*;
 public class WorldMap {
     private HashMap<Point, Entity> map;
     private Set<Point> generatedPoints;
-    private List<Predator> predators; // Додано список хижаків
-    private List<Herbivore> herbivore;
     private Random random;
     private final int DEFAULT_SIZE = 10;
     private final int SIZE;
-
     public WorldMap() {
         SIZE = DEFAULT_SIZE;
         map = new HashMap<>(SIZE);
         random = new Random();
         generatedPoints = new HashSet<>();
-        predators = new ArrayList<>(); // Ініціалізація списку хижаків
-        herbivore = new ArrayList<>();
     }
     public Point getRandomPoint() {
         Point randomPoint;
@@ -57,19 +52,5 @@ public class WorldMap {
             }
         }
         return entityList;
-    }
-    public List<Predator> getPredators() {
-        // Повертаємо невибіркову копію списку хижаків
-        return new ArrayList<>(predators);
-    }
-    public List<Herbivore> getHerbivore() {
-        ArrayList<Herbivore> herbivoreArrayList = new ArrayList<>();
-        for (Map.Entry<Point, Entity> entry : map.entrySet()) {
-            Entity entity = entry.getValue();
-            if (entity instanceof Herbivore){
-                herbivoreArrayList.add((Herbivore) entity);
-            }
-        }
-        return herbivoreArrayList;
     }
 }

@@ -6,7 +6,7 @@ import main.com.app.entities.Entity;
 import main.com.app.entities.WorldMap;
 
 public class Renderer {
-    public final String GROUND = "\uD83D\uDFEB"; // 🟫
+    public final String GROUND = "  "; // 🟫
 
     public void renderWorldMap(WorldMap map) {
         clearConsole();
