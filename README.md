@@ -43,4 +43,4 @@ The simulation takes place on a 2D grid represented by an NxM matrix. The entiti
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/<your-username>/java-backend-learning-course.git
+   git clone https://github.com/Jurdio/pet-project-02-simulation.git
