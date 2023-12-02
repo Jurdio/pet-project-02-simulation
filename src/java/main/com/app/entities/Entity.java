@@ -15,6 +15,6 @@ public abstract class Entity {
     }
     @Override
     public String toString(){
-        return "G";
+        return null;
     };
 }

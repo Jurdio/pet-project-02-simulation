@@ -37,6 +37,7 @@ public class Simulation {
         while (!isGamePaused) {
             nextTurn();
         }
+        System.out.println("Game is over!");
     }
 
     public static void pauseSimulation() {

@@ -8,10 +8,12 @@ import java.util.List;
 public abstract class Creature<T extends Entity> extends Entity {
     protected int speed;
     protected int healthPoint;
+    protected boolean hasNextPrey;
     protected Class<T> typeOfPrey;
     Creature(Point point, Class<T> typeOfPrey) {
         super(point);
         this.typeOfPrey = typeOfPrey;
+        hasNextPrey = true;
     }
     public void makeMove(WorldMap worldMap) {
         List<Point> path = pathToNearestPrey(worldMap);
@@ -21,8 +23,15 @@ public abstract class Creature<T extends Entity> extends Entity {
             Entity prey = worldMap.getEntityByPoint(nextPoint);
 
             makeAction(worldMap,prey,nextPoint);
+        } else {
+            hasNextPrey = false;
         }
     }
+
+    public boolean isHasNextPrey() {
+        return hasNextPrey;
+    }
+
     public void setHealthPoint(int healthPoint){
         this.healthPoint = healthPoint;
     }

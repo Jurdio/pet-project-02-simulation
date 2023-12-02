@@ -14,7 +14,20 @@ public class Actions {
         spawnEntities(simulationWorldMap, EntityType.TREE, 4);
     }
     public void turnActions(WorldMap simulationWorldMap) {
-        makeMoves(simulationWorldMap.getListOfEntities(Creature.class), simulationWorldMap);
+        if (!isGameOver(simulationWorldMap)){
+            makeMoves(simulationWorldMap.getListOfEntities(Creature.class), simulationWorldMap);
+        } else {
+            Simulation.pauseSimulation();
+        }
+    }
+    public boolean isGameOver(WorldMap simulationWorldMap){
+        List<? extends Entity> predators = simulationWorldMap.getListOfEntities(Predator.class);
+        for (Entity predator : predators) {
+            if (((Predator) predator).isHasNextPrey()) {
+                return false; // Якщо хоч один вовк має наступну жертву, гра не закінчена
+            }
+        }
+        return true; // Якщо жоден вовк не має наступної жертви, гра завершена
     }
     private void spawnEntities(WorldMap map, EntityType type, int count) {
         for (int i = 0; i < count; i++) {
