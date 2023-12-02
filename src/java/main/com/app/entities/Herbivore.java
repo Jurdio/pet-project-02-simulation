@@ -16,14 +16,7 @@ public class Herbivore extends Creature {
             Point nextPoint = path.get(1);
             // Перевірити, чи точка є позицією здобичі
             Entity prey = worldMap.getEntityByPoint(nextPoint);
-            if (isValidPrey(prey)) {
-                worldMap.removeEntityByPoint(nextPoint);
-            } else {
-                // Перемістити хижака до обраної точки
-                worldMap.updateEntityPosition(this.point, nextPoint);
-                // Оновити внутрішню позицію хижака
-                this.point = nextPoint;
-            }
+            makeAction(worldMap,prey,nextPoint);
 
         }
     }
@@ -31,6 +24,16 @@ public class Herbivore extends Creature {
     public Class<? extends Entity> getTypeOfPrey() {
         return Grass.class;
     }
+
+    @Override
+    public void makeAction(WorldMap worldMap, Entity prey, Point nextPoint) {
+        if (isValidPrey(prey)) {
+            worldMap.removeEntityByPoint(nextPoint);
+        }
+
+        worldMap.updateEntityPosition(this.point, nextPoint);
+    }
+
     @Override
     public String toString() {
         return "\uD83D\uDC07"; // 🐇

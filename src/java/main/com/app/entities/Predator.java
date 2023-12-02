@@ -14,31 +14,34 @@ public class Predator extends Creature {
     public void makeMove(WorldMap worldMap) {
         List<Point> path = pathToNearestPrey(worldMap);
 
-        // Якщо знайдено шлях, пересувати хижака
         if (isValidPath(path)) {
             Point nextPoint = path.get(1);
-            // Перевірити, чи точка є позицією здобичі
             Entity prey = worldMap.getEntityByPoint(nextPoint);
-            if (isValidPrey(prey)) {
-                System.out.println("Тицьнув травоїдного!");
-                ((Creature) prey).setHealthPoint(((Creature) prey).getHealthPoint() - attackPower);
-                if (((Creature) prey).getHealthPoint() <= 0){
-                    worldMap.removeEntityByPoint(nextPoint);
-                    worldMap.updateEntityPosition(this.point, nextPoint);
-                    System.out.println("Вбито травоїдного!");
-                }
-            } else {
-                System.out.println("Я не біля цілі, йду далі");
-                worldMap.updateEntityPosition(this.point, nextPoint);
-            }
-        } else {
-            System.out.println("Я вже всіх зїв, ням!");
+
+            makeAction(worldMap,prey,nextPoint);
         }
     }
 
     @Override
     public Class<? extends Entity> getTypeOfPrey() {
         return Herbivore.class;
+    }
+    private void attackPrey(Entity prey){
+        ((Creature) prey).setHealthPoint(((Creature) prey).getHealthPoint() - attackPower);
+    }
+    @Override
+    public void makeAction(WorldMap worldMap, Entity prey, Point nextPoint) {
+        if (isValidPrey(prey)) {
+            attackPrey(prey);
+
+            if (((Creature) prey).getHealthPoint() <= 0){
+                worldMap.removeEntityByPoint(nextPoint);
+                worldMap.updateEntityPosition(this.point, nextPoint);
+                System.out.println("Вбито травоїдного!");
+            }
+        } else {
+            worldMap.updateEntityPosition(this.point, nextPoint);
+        }
     }
 
     @Override
