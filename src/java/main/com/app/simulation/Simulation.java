@@ -2,17 +2,20 @@ package main.com.app.simulation;
 
 import main.com.app.entities.WorldMap;
 
+
 public class Simulation {
     private WorldMap map;
     private Actions actions;
     private Renderer renderer;
     private int turnCount;
+    private boolean isGamePaused;
 
     public Simulation() {
         map = new WorldMap();
         actions = new Actions();
         renderer = new Renderer();
         turnCount = 0;
+        isGamePaused = false;
 
         actions.initActions(map);
     }
@@ -21,8 +24,8 @@ public class Simulation {
         renderer.renderWorldMap(map);
         actions.turnActions(map);
         turnCount++;
+        System.out.println("Move in the game number :" + turnCount);
 
-        // Додайте затримку часу
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -31,13 +34,16 @@ public class Simulation {
     }
 
     public void startSimulation() {
-        while (true) {
+        while (!isGamePaused) {
             nextTurn();
         }
     }
 
     public void pauseSimulation() {
-        // Зупинка симуляції, якщо потрібно
+        isGamePaused = true;
+    }
+    public void resumeSimulation() {
+        isGamePaused = true;
     }
 
     public static void main(String[] args) {

@@ -33,19 +33,9 @@ public class WorldMap {
         map.put(newPosition, entity);
         entity.setPoint(newPosition);
     }
-    public HashMap<Point, Entity> getMap() {
-        return map;
-    }
     public void addEntityToMap(Entity entity) {
         map.put(entity.getPoint(), entity);
         generatedPoints.add(entity.getPoint());
-
-        if (entity instanceof Predator) {
-            predators.add((Predator) entity); // Додавання хижака до списку хижаків
-        }
-        if (entity instanceof Herbivore){
-            herbivore.add((Herbivore) entity);
-        }
     }
     public int getMapSize() {
         return SIZE;
@@ -57,13 +47,6 @@ public class WorldMap {
         Entity removedEntity = map.remove(point);
         if (removedEntity != null) {
             generatedPoints.remove(point);
-
-            if (removedEntity instanceof Predator) {
-                predators.remove(removedEntity); // Видалення хижака зі списку хижаків
-            }
-            if (removedEntity instanceof Herbivore) {
-                herbivore.remove(removedEntity);
-            }
         }
     }
     public List<? extends Entity> getListOfEntities(Class<? extends Entity> entityType) {
@@ -74,10 +57,6 @@ public class WorldMap {
             }
         }
         return entityList;
-    }
-    public double calculateDistance(Point p1, Point p2) {
-        // Реалізуйте обчислення відстані між двома точками (наприклад, відстань Евкліда)
-        return Math.sqrt(Math.pow(p2.getX() - p1.getX(), 2) + Math.pow(p2.getY() - p1.getY(), 2));
     }
     public List<Predator> getPredators() {
         // Повертаємо невибіркову копію списку хижаків

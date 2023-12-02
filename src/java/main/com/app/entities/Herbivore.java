@@ -3,8 +3,6 @@ package main.com.app.entities;
 import java.util.List;
 
 public class Herbivore extends Creature {
-
-
     public Herbivore(Point point, Class typeOfPrey) {
         super(point, typeOfPrey);
         super.healthPoint = 3;
@@ -29,12 +27,10 @@ public class Herbivore extends Creature {
 
         }
     }
-
     @Override
     public Class<? extends Entity> getTypeOfPrey() {
         return Grass.class;
     }
-
     @Override
     public String toString() {
         return "\uD83D\uDC07"; // 🐇

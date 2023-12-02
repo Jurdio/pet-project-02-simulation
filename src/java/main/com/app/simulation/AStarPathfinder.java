@@ -8,11 +8,9 @@ import java.util.*;
 
 public class AStarPathfinder {
     private WorldMap worldMap;
-
     public AStarPathfinder(WorldMap worldMap) {
         this.worldMap = worldMap;
     }
-
     public <T extends Entity> List<Point> findPath(Point start, Point goal, Class<T> targetType) {
         Set<Point> openSet = new HashSet<>();
         Set<Point> closedSet = new HashSet<>();
@@ -26,6 +24,7 @@ public class AStarPathfinder {
 
         while (!openSet.isEmpty()) {
             Point current = getLowestFScore(openSet, fScore);
+
             if (current.equals(goal)) {
                 return reconstructPath(cameFrom, current);
             }
@@ -51,23 +50,11 @@ public class AStarPathfinder {
                 }
             }
         }
-
-        // No path found
-        System.out.println("No path found");
-        System.out.println("Start: " + start + ", Goal: " + goal);
-        System.out.println("Open Set: " + openSet);
-        System.out.println("Closed Set: " + closedSet);
-        System.out.println("Came From: " + cameFrom);
-        System.out.println("G Score: " + gScore);
-        System.out.println("F Score: " + fScore);
-        System.out.println("Path: null");
         return Collections.emptyList();
     }
-
     private Point getLowestFScore(Set<Point> openSet, Map<Point, Integer> fScore) {
         return openSet.stream().min(Comparator.comparingInt(fScore::get)).orElse(null);
     }
-
     private List<Point> reconstructPath(Map<Point, Point> cameFrom, Point current) {
         List<Point> path = new ArrayList<>();
         path.add(current);
@@ -79,15 +66,12 @@ public class AStarPathfinder {
 
         return path;
     }
-
     private int heuristicCostEstimate(Point start, Point goal) {
         return Math.abs(goal.getX() - start.getX()) + Math.abs(goal.getY() - start.getY());
     }
-
     private int distanceBetween(Point a, Point b) {
         return Math.abs(b.getX() - a.getX()) + Math.abs(b.getY() - a.getY());
     }
-
     private <T extends Entity> List<Point> getNeighbors(Point point, Class<T> targetType) {
         List<Point> neighbors = new ArrayList<>();
 
@@ -113,7 +97,6 @@ public class AStarPathfinder {
 
         return neighbors;
     }
-
     private <T extends Entity> boolean isValidNeighbor(Point neighbor, Class<T> targetType) {
         // Check if the point is within the bounds of the map
         int mapSize = worldMap.getMapSize();

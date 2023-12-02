@@ -9,7 +9,7 @@ public class Renderer {
     public final String GROUND = "\uD83D\uDFEB"; // 🟫
 
     public void renderWorldMap(WorldMap map) {
-        clearConsole();  // Очистити консоль перед виведенням нового стану
+        clearConsole();
 
         String line;
         for (int i = 0; i < map.getMapSize(); i++) {
