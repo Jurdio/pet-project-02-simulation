@@ -1,4 +1,4 @@
-# Simulation Project
+# Simulation Game
 
 Welcome to the Simulation project of the Java Backend Learning Course. This project is a step-by-step simulation of a 2D world populated with herbivores, predators, grass, rocks, and trees. The simulation demonstrates principles of object-oriented design and architecture in Java.
 
